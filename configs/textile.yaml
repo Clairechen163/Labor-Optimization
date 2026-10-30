@@ -1,0 +1,66 @@
+# Garment factory: machine operators, sewers, packers. Runs six days a week, around the clock.
+name: Textile factory
+industry: manufacturing
+currency: HKD
+seed: 11
+
+days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+operating_days: [Mon, Tue, Wed, Thu, Fri, Sat]
+
+blocks:
+  night: [0, 6]
+  morning: [6, 12]
+  afternoon: [12, 18]
+  evening: [18, 24]
+
+roles:
+  operator: {wage: 180}
+  sewer:    {wage: 160}
+  packer:   {wage: 140}
+
+demand:
+  operator: {morning: 5, afternoon: 6, evening: 7, night: 4}
+  sewer:    {morning: 4, afternoon: 5, evening: 6, night: 3}
+  packer:   {morning: 2, afternoon: 3, evening: 3, night: 2}
+
+peak_days: []
+peak_multiplier: {}
+
+shift_templates:
+  - {name: early, start: 6,  length: 8}
+  - {name: mid,   start: 10, length: 8}
+  - {name: swing, start: 14, length: 8}
+  - {name: late,  start: 18, length: 8, premium: 1.10}
+  - {name: night, start: 22, length: 8, premium: 1.15}
+
+baseline_templates: [early, swing, night]
+
+workforce:
+  operator:
+    - {count: 19, contract: FT}
+    - {count: 6,  contract: PT}
+  sewer:
+    - {count: 15, contract: FT}
+    - {count: 6,  contract: PT}
+  packer:
+    - {count: 8, contract: FT}
+    - {count: 4, contract: PT}
+
+cross_training:
+  - {from: sewer, to: packer, share: 0.3}
+
+contracts:
+  FT: {min_hours: 40, max_hours: 48, max_days: 6}
+  PT: {min_hours: 0,  max_hours: 24, max_days: 3}
+
+availability:
+  share_no_nights: 0.25
+  share_with_day_off_request: 0.2
+
+rules:
+  min_rest_hours: 11
+  max_weekend_days: 2
+  overtime_threshold: 40
+  overtime_premium: 1.5
+  max_overtime_hours: 8
+  call_in_multiplier: 3.0   # uncovered hours are filled by call-in staff at 3x base wage

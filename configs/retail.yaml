@@ -1,0 +1,71 @@
+# Luxury fashion boutique: sales associates, managers, customer service reps.
+# Store is open 10:00-22:00 every day; weekends follow the separate weekend demand row.
+name: Luxury retail boutique
+industry: retail
+currency: HKD
+seed: 3
+
+days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+operating_days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+
+blocks:
+  morning: [10, 14]
+  afternoon: [14, 18]
+  evening: [18, 22]
+
+roles:
+  sales_associate: {wage: 250}
+  manager:         {wage: 400}
+  csr:             {wage: 200}
+
+demand:
+  sales_associate: {morning: 4, afternoon: 5, evening: 3}
+  manager:         {morning: 1, afternoon: 1, evening: 1}
+  csr:             {morning: 2, afternoon: 3, evening: 2}
+
+# The original case study gives a separate "weekend" requirement: 6 SA, 2 managers, 4 CSR.
+peak_days: [Sat, Sun]
+peak_override:
+  sales_associate: {morning: 6, afternoon: 6, evening: 6}
+  manager:         {morning: 2, afternoon: 2, evening: 2}
+  csr:             {morning: 4, afternoon: 4, evening: 4}
+
+shift_templates:
+  - {name: open,      start: 10, length: 8}
+  - {name: mid,       start: 12, length: 8}
+  - {name: close,     start: 14, length: 8}
+  - {name: pt_am,     start: 10, length: 4}
+  - {name: pt_peak,   start: 14, length: 4}
+  - {name: pt_pm,     start: 18, length: 4}
+
+baseline_templates: [open, close]
+
+workforce:
+  sales_associate:
+    - {count: 7, contract: FT}
+    - {count: 6, contract: PT}
+  manager:
+    - {count: 4, contract: FT}
+  csr:
+    - {count: 5, contract: FT}
+    - {count: 3, contract: PT}
+
+cross_training:
+  - {from: manager, to: sales_associate, share: 1.0}
+  - {from: csr, to: sales_associate, share: 0.25}
+
+contracts:
+  FT: {min_hours: 40, max_hours: 44, max_days: 5, allowed_lengths: [8]}
+  PT: {min_hours: 0,  max_hours: 20, max_days: 4, allowed_lengths: [4]}
+
+availability:
+  share_no_nights: 0.0
+  share_with_day_off_request: 0.3
+
+rules:
+  min_rest_hours: 11
+  max_weekend_days: 2
+  overtime_threshold: 40
+  overtime_premium: 1.5
+  max_overtime_hours: 4
+  call_in_multiplier: 3.0   # uncovered hours are filled by call-in staff at 3x base wage

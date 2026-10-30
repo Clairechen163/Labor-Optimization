@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "labor-optimization"
+version = "1.0.0"
+description = "Labor scheduling optimization and workforce analytics: forecasting, MILP rostering, experiments and casino mathematics"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Claire Chen"}]
+dependencies = [
+    "pulp>=2.7,<4",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "statsmodels>=0.14",
+    "matplotlib>=3.7",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.46"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+labor-opt = "labor_opt.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+labor_opt = ["sql/*.sql"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]

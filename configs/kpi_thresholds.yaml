@@ -1,0 +1,19 @@
+# Threshold rules for flagging operations that need attention.
+# A rule fires when `metric op threshold` holds for `consecutive` periods in a row.
+
+textile:          # per production line, per day
+  - {metric: units_per_labor_hour, op: "<", threshold: 20,   target: 25,   action: "Check material flow and staffing"}
+  - {metric: downtime_rate,        op: ">", threshold: 0.10, target: 0.05, action: "Schedule maintenance"}
+  - {metric: defect_rate,          op: ">", threshold: 0.05, target: 0.02, action: "Quality review / retraining"}
+  - {metric: fulfillment_days,     op: ">", threshold: 10,   target: 7,    action: "Re-prioritise orders"}
+
+retail:           # per store, per day
+  - {metric: sales_per_labor_hour,    op: "<", threshold: 400,  target: 500,  consecutive: 3, action: "Review staffing vs traffic"}
+  - {metric: conversion,              op: "<", threshold: 0.15, target: 0.20, consecutive: 3, action: "Sales coaching"}
+  - {metric: avg_transaction_minutes, op: ">", threshold: 8,    target: 5,    consecutive: 2, action: "Check POS / checkout"}
+  - {metric: nps,                     op: "<", threshold: 65,   target: 75,   consecutive: 3, action: "Service quality review"}
+
+casino:           # per dealer, per shift
+  - {metric: hands_per_hour,          op: "<", threshold: 60,   target: 70,   consecutive: 2, action: "Coaching / break schedule"}
+  - {metric: utilization,             op: "<", threshold: 0.70, target: 0.85, consecutive: 3, action: "Rebalance shift assignment"}
+  - {metric: revenue_per_labor_hour,  op: "<", threshold: 400,  target: 500,  consecutive: 3, action: "Review table assignment"}

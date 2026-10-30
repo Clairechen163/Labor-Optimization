@@ -1,0 +1,687 @@
+{
+  "casino": {
+    "policies": [
+      {
+        "policy": "Fixed shifts, no cross-training",
+        "labor_cost": 326480.0,
+        "call_in_cost": 47700.0,
+        "total_cost": 374180.0,
+        "paid_hours": 1600.0,
+        "shortfall_staff_hours": 82.0,
+        "surplus_staff_hours": 86.0,
+        "coverage_rate": 0.9486215538847118,
+        "schedule_efficiency": 0.94625,
+        "solution": "optimal",
+        "runtime_s": 0.16564640199999303
+      },
+      {
+        "policy": "Fixed shifts + cross-training",
+        "labor_cost": 325280.0,
+        "call_in_cost": 48900.0,
+        "total_cost": 374180.0,
+        "paid_hours": 1600.0,
+        "shortfall_staff_hours": 82.0,
+        "surplus_staff_hours": 86.0,
+        "coverage_rate": 0.9486215538847118,
+        "schedule_efficiency": 0.94625,
+        "solution": "optimal",
+        "runtime_s": 0.1856409720001011
+      },
+      {
+        "policy": "Flexible starts, no cross-training",
+        "labor_cost": 341900.0,
+        "call_in_cost": 14700.0,
+        "total_cost": 356600.0,
+        "paid_hours": 1664.0,
+        "shortfall_staff_hours": 24.0,
+        "surplus_staff_hours": 92.0,
+        "coverage_rate": 0.9849624060150376,
+        "schedule_efficiency": 0.9447115384615384,
+        "solution": "optimal",
+        "runtime_s": 0.4611432629999399
+      },
+      {
+        "policy": "Flexible starts + cross-training (optimized)",
+        "labor_cost": 332900.0,
+        "call_in_cost": 22200.0,
+        "total_cost": 355100.0,
+        "paid_hours": 1624.0,
+        "shortfall_staff_hours": 34.0,
+        "surplus_staff_hours": 62.0,
+        "coverage_rate": 0.9786967418546366,
+        "schedule_efficiency": 0.9618226600985221,
+        "solution": "optimal",
+        "runtime_s": 0.4049839660001453
+      }
+    ],
+    "lp_lower_bound": 353100.0,
+    "saving_vs_fixed": 0.05099150141643061,
+    "marginal_cost_dealer": [
+      {
+        "day": "Mon",
+        "block": "night",
+        "hours": "00-06",
+        "marginal_cost": 640.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Mon",
+        "block": "morning",
+        "hours": "06-12",
+        "marginal_cost": 1040.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Mon",
+        "block": "afternoon",
+        "hours": "12-18",
+        "marginal_cost": 1600.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Mon",
+        "block": "evening",
+        "hours": "18-24",
+        "marginal_cost": 1760.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Tue",
+        "block": "night",
+        "hours": "00-06",
+        "marginal_cost": 640.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Tue",
+        "block": "morning",
+        "hours": "06-12",
+        "marginal_cost": 1040.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Tue",
+        "block": "afternoon",
+        "hours": "12-18",
+        "marginal_cost": 1600.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Tue",
+        "block": "evening",
+        "hours": "18-24",
+        "marginal_cost": 1760.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Wed",
+        "block": "night",
+        "hours": "00-06",
+        "marginal_cost": 640.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Wed",
+        "block": "morning",
+        "hours": "06-12",
+        "marginal_cost": 1040.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Wed",
+        "block": "afternoon",
+        "hours": "12-18",
+        "marginal_cost": 1600.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Wed",
+        "block": "evening",
+        "hours": "18-24",
+        "marginal_cost": 1760.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Thu",
+        "block": "night",
+        "hours": "00-06",
+        "marginal_cost": 640.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Thu",
+        "block": "morning",
+        "hours": "06-12",
+        "marginal_cost": 400.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Thu",
+        "block": "afternoon",
+        "hours": "12-18",
+        "marginal_cost": 1600.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Thu",
+        "block": "evening",
+        "hours": "18-24",
+        "marginal_cost": 1760.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Fri",
+        "block": "night",
+        "hours": "00-06",
+        "marginal_cost": 1680.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Fri",
+        "block": "morning",
+        "hours": "06-12",
+        "marginal_cost": 1040.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Fri",
+        "block": "afternoon",
+        "hours": "12-18",
+        "marginal_cost": 1600.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Fri",
+        "block": "evening",
+        "hours": "18-24",
+        "marginal_cost": 1760.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Sat",
+        "block": "night",
+        "hours": "00-06",
+        "marginal_cost": 640.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Sat",
+        "block": "morning",
+        "hours": "06-12",
+        "marginal_cost": 1040.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Sat",
+        "block": "afternoon",
+        "hours": "12-18",
+        "marginal_cost": 1600.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Sat",
+        "block": "evening",
+        "hours": "18-24",
+        "marginal_cost": 1760.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Sun",
+        "block": "night",
+        "hours": "00-06",
+        "marginal_cost": 640.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Sun",
+        "block": "morning",
+        "hours": "06-12",
+        "marginal_cost": 1040.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Sun",
+        "block": "afternoon",
+        "hours": "12-18",
+        "marginal_cost": 1600.0,
+        "at_floor_capacity": false
+      },
+      {
+        "day": "Sun",
+        "block": "evening",
+        "hours": "18-24",
+        "marginal_cost": 1760.0,
+        "at_floor_capacity": false
+      }
+    ]
+  },
+  "textile": {
+    "policies": [
+      {
+        "policy": "Fixed shifts, no cross-training",
+        "labor_cost": 295776.0,
+        "call_in_cost": 67920.0,
+        "total_cost": 363696.0,
+        "paid_hours": 1728.0,
+        "shortfall_staff_hours": 138.0,
+        "surplus_staff_hours": 66.0,
+        "coverage_rate": 0.9233333333333333,
+        "schedule_efficiency": 0.9618055555555556,
+        "solution": "optimal",
+        "runtime_s": 0.2050706799998352
+      },
+      {
+        "policy": "Fixed shifts + cross-training",
+        "labor_cost": 295776.0,
+        "call_in_cost": 67920.0,
+        "total_cost": 363696.0,
+        "paid_hours": 1728.0,
+        "shortfall_staff_hours": 138.0,
+        "surplus_staff_hours": 66.0,
+        "coverage_rate": 0.9233333333333333,
+        "schedule_efficiency": 0.9618055555555556,
+        "solution": "optimal",
+        "runtime_s": 0.17251982200014027
+      },
+      {
+        "policy": "Flexible starts, no cross-training",
+        "labor_cost": 322752.0,
+        "call_in_cost": 21120.0,
+        "total_cost": 343872.0,
+        "paid_hours": 1872.0,
+        "shortfall_staff_hours": 42.0,
+        "surplus_staff_hours": 114.0,
+        "coverage_rate": 0.9766666666666667,
+        "schedule_efficiency": 0.9391025641025641,
+        "solution": "optimal",
+        "runtime_s": 0.2926776350000182
+      },
+      {
+        "policy": "Flexible starts + cross-training (optimized)",
+        "labor_cost": 322752.0,
+        "call_in_cost": 21120.0,
+        "total_cost": 343872.0,
+        "paid_hours": 1872.0,
+        "shortfall_staff_hours": 42.0,
+        "surplus_staff_hours": 114.0,
+        "coverage_rate": 0.9766666666666667,
+        "schedule_efficiency": 0.9391025641025641,
+        "solution": "optimal",
+        "runtime_s": 0.29564014599986876
+      }
+    ],
+    "lp_lower_bound": 343872.0,
+    "saving_vs_fixed": 0.05450706084202195
+  },
+  "retail": {
+    "policies": [
+      {
+        "policy": "Fixed shifts, no cross-training",
+        "labor_cost": 174000.0,
+        "call_in_cost": 104400.0,
+        "total_cost": 278400.0,
+        "paid_hours": 640.0,
+        "shortfall_staff_hours": 148.0,
+        "surplus_staff_hours": 60.0,
+        "coverage_rate": 0.7967032967032968,
+        "schedule_efficiency": 0.90625,
+        "solution": "optimal",
+        "runtime_s": 0.02787795099993673
+      },
+      {
+        "policy": "Fixed shifts + cross-training",
+        "labor_cost": 174000.0,
+        "call_in_cost": 91200.0,
+        "total_cost": 265200.0,
+        "paid_hours": 640.0,
+        "shortfall_staff_hours": 132.0,
+        "surplus_staff_hours": 44.0,
+        "coverage_rate": 0.8186813186813187,
+        "schedule_efficiency": 0.93125,
+        "solution": "optimal",
+        "runtime_s": 0.03569162300004791
+      },
+      {
+        "policy": "Flexible starts, no cross-training",
+        "labor_cost": 206000.0,
+        "call_in_cost": 8400.0,
+        "total_cost": 214400.0,
+        "paid_hours": 776.0,
+        "shortfall_staff_hours": 12.0,
+        "surplus_staff_hours": 60.0,
+        "coverage_rate": 0.9835164835164835,
+        "schedule_efficiency": 0.9226804123711341,
+        "solution": "optimal",
+        "runtime_s": 0.038782046000051196
+      },
+      {
+        "policy": "Flexible starts + cross-training (optimized)",
+        "labor_cost": 203800.0,
+        "call_in_cost": 2400.0,
+        "total_cost": 206200.0,
+        "paid_hours": 768.0,
+        "shortfall_staff_hours": 4.0,
+        "surplus_staff_hours": 44.0,
+        "coverage_rate": 0.9945054945054945,
+        "schedule_efficiency": 0.9427083333333334,
+        "solution": "optimal",
+        "runtime_s": 0.05495899399988957
+      }
+    ],
+    "lp_lower_bound": 186400.0,
+    "saving_vs_fixed": 0.25933908045977017
+  },
+  "forecast": {
+    "backtest": [
+      {
+        "method": "Seasonal naive (same hour last week)",
+        "wape": 0.33989118826629183,
+        "mae": 6.065476190476191,
+        "under_dealer_hours_per_week": 104.0,
+        "over_dealer_hours_per_week": 103.16666666666667
+      },
+      {
+        "method": "4-week same-hour average",
+        "wape": 0.26149783042892044,
+        "mae": 4.66468253968254,
+        "under_dealer_hours_per_week": 87.83333333333333,
+        "over_dealer_hours_per_week": 75.5
+      },
+      {
+        "method": "NB regression (mean)",
+        "wape": 0.2353853053598843,
+        "mae": 4.19847980937412,
+        "under_dealer_hours_per_week": 75.5,
+        "over_dealer_hours_per_week": 69.66666666666667
+      },
+      {
+        "method": "NB regression (P67 for staffing)",
+        "wape": 0.25567869242222346,
+        "mae": 4.560515873015873,
+        "under_dealer_hours_per_week": 49.166666666666664,
+        "over_dealer_hours_per_week": 106.16666666666667
+      }
+    ],
+    "quantile": 0.6666666666666666,
+    "roster": {
+      "status": "Optimal",
+      "solution": "optimal",
+      "labor_cost": 345140.0,
+      "call_in_cost": 24600.0,
+      "total_cost": 369740.0,
+      "overtime_cost": 0.0,
+      "paid_hours": 1680.0,
+      "required_staff_hours": 1622.0,
+      "shortfall_staff_hours": 38.0,
+      "surplus_staff_hours": 96.0,
+      "coverage_rate": 0.9765721331689272,
+      "schedule_efficiency": 0.9428571428571428,
+      "cross_role_shifts": 5,
+      "n_variables": 2291,
+      "n_constraints": 2852,
+      "runtime_s": 0.5659237889999531
+    }
+  },
+  "demand": {
+    "workload": {
+      "exact": 27.77777777777778,
+      "workers": 28
+    },
+    "erlang_80": {
+      "offered_load": 8.333333333333334,
+      "servers": 11,
+      "service_level": 0.8242294410087337,
+      "prob_wait": 0.2996193500370124,
+      "avg_wait_minutes": 1.1235725626387967,
+      "occupancy": 0.7575757575757577,
+      "scheduled": 11
+    },
+    "erlang_95_shrink": {
+      "offered_load": 8.333333333333334,
+      "servers": 13,
+      "service_level": 0.9612268428929862,
+      "prob_wait": 0.09859903883140791,
+      "avg_wait_minutes": 0.21128365463873128,
+      "occupancy": 0.6410256410256411,
+      "scheduled": 17
+    },
+    "table_game": {
+      "tables": 22,
+      "dealers": 28
+    }
+  },
+  "experiments": {
+    "dealer": {
+      "naive_welch": {
+        "estimate": 5.290075217348829,
+        "se": 0.7196520368904727,
+        "ci_low": 3.8770072803011653,
+        "ci_high": 6.703143154396492,
+        "t": 7.3508792390925315,
+        "p_value": 5.809662679886305e-13,
+        "cohens_d": 0.5677721632051785,
+        "n_treated": 353,
+        "n_control": 319,
+        "bootstrap_ci": [
+          3.8560054881135253,
+          6.732156082659161
+        ]
+      },
+      "adjusted_ols": {
+        "estimate": 5.452253152982813,
+        "se": 0.5771302419530823,
+        "ci_low": 4.321098664365884,
+        "ci_high": 6.583407641599742,
+        "p_value": 3.4808259849468296e-21,
+        "r2": 0.3669153238364635,
+        "n": 672
+      },
+      "satisfaction_ols": {
+        "estimate": 0.6776161775327211,
+        "se": 0.07081894200460502,
+        "ci_low": 0.5388136017804644,
+        "ci_high": 0.8164187532849777,
+        "p_value": 1.0868836156849052e-21,
+        "r2": 0.11816480996120249,
+        "n": 672
+      },
+      "n_per_arm_for_3_hands": 152,
+      "economics_per_peak_hour": {
+        "extra_theoretical_win": 1134.182244427779,
+        "extra_win_ci_low": 898.8785450769449,
+        "extra_labor_cost": 270.0,
+        "net": 864.1822444277791,
+        "net_at_ci_low": 628.8785450769449,
+        "assumptions": {
+          "tables": 7,
+          "avg_players": 5.94,
+          "avg_bet": 500.0,
+          "house_edge": 0.01
+        }
+      }
+    },
+    "textile": {
+      "naive_before_after": {
+        "estimate": 2.363791666666666,
+        "se": 0.20326788777716112,
+        "ci_low": 1.7169025282274162,
+        "ci_high": 3.0106808051059155,
+        "t": 11.628947850621874,
+        "p_value": 0.0013658638041184386,
+        "n_pairs": 4
+      },
+      "diff_in_diff": {
+        "estimate": 1.1776874999999924,
+        "se": 0.27262455241873323,
+        "ci_low": 0.6433531959579232,
+        "ci_high": 1.7120218040420618,
+        "p_value": 1.5616039745439407e-05,
+        "r2": 0.8295761600458951,
+        "n": 112
+      },
+      "defects_glm": {
+        "estimate": -0.2773682428190226,
+        "se": 0.041669164405295715,
+        "ci_low": -0.3590383043192806,
+        "ci_high": -0.19569818131876465,
+        "p_value": 2.8054186442689013e-11,
+        "odds_ratio": 0.7577754003763575
+      },
+      "pretrend": {
+        "estimate": -0.03298214285714368,
+        "se": 0.08943181386698011,
+        "ci_low": -0.20826527710851447,
+        "ci_high": 0.1423009913942271,
+        "p_value": 0.7122793893784292,
+        "r2": 0.7890505279040136,
+        "n": 64
+      }
+    },
+    "retail": {
+      "estimate": 0.12026492379357734,
+      "se": 0.014939542760524496,
+      "ci_low": 0.09098395803745322,
+      "ci_high": 0.14954588954970144,
+      "p_value": 8.272141068503706e-16,
+      "odds_ratio": 1.1277955918925038,
+      "baseline_conversion": 0.1906719162376152,
+      "implied_conversion": 0.20992372875180068
+    }
+  },
+  "kpi": {
+    "spc_first_signal": "2026-03-11 00:00:00",
+    "threshold_first_flag": "None",
+    "flags": 8
+  },
+  "casino_math": [
+    {
+      "game": "European roulette",
+      "bet": "Straight up (35:1)",
+      "p_win": 0.02702702702702703,
+      "house_edge": 0.02702702702702703,
+      "payback": 0.972972972972973
+    },
+    {
+      "game": "European roulette",
+      "bet": "Red/black (1:1)",
+      "p_win": 0.4864864864864865,
+      "house_edge": 0.02702702702702703,
+      "payback": 0.972972972972973
+    },
+    {
+      "game": "American roulette",
+      "bet": "Straight up (35:1)",
+      "p_win": 0.02631578947368421,
+      "house_edge": 0.05263157894736842,
+      "payback": 0.9473684210526316
+    },
+    {
+      "game": "American roulette",
+      "bet": "Top line 0-00-1-2-3 (6:1)",
+      "p_win": 0.13157894736842105,
+      "house_edge": 0.07894736842105263,
+      "payback": 0.9210526315789473
+    },
+    {
+      "game": "Craps",
+      "bet": "Pass line (1:1)",
+      "p_win": 0.49292929292929294,
+      "house_edge": 0.014141414141414142,
+      "payback": 0.9858585858585859
+    },
+    {
+      "game": "Baccarat (8 decks)",
+      "bet": "Banker (0.95:1)",
+      "p_win": 0.4585974226322891,
+      "house_edge": 0.010579057842496131,
+      "payback": 0.9894209421575039
+    },
+    {
+      "game": "Baccarat (8 decks)",
+      "bet": "Player (1:1)",
+      "p_win": 0.44624660934317073,
+      "house_edge": 0.012350813289118356,
+      "payback": 0.9876491867108816
+    },
+    {
+      "game": "Baccarat (8 decks)",
+      "bet": "Tie (8:1)",
+      "p_win": 0.09515596802363396,
+      "house_edge": 0.14359628778729427,
+      "payback": 0.8564037122127057
+    },
+    {
+      "game": "Slot (example paytable)",
+      "bet": "1 unit per spin",
+      "p_win": 0.37488666666666665,
+      "house_edge": 0.039999999999999925,
+      "payback": 0.9600000000000001
+    }
+  ],
+  "proforma": {
+    "textile": {
+      "baseline_profit": 5000.0,
+      "scenario_profit": 6000.0,
+      "incremental_profit": 1000.0,
+      "labor_cost_per_unit_before": 5.0,
+      "labor_cost_per_unit_after": 4.545454545454546
+    },
+    "textile_margin": {
+      "baseline_profit": 500.0,
+      "scenario_profit": 1050.000000000001,
+      "incremental_profit": 550.0000000000009,
+      "labor_cost_per_unit_before": 5.0,
+      "labor_cost_per_unit_after": 4.545454545454546
+    },
+    "cases": [
+      {
+        "case": "Retail promotion (as stated)",
+        "baseline_profit": 48000.0,
+        "scenario_profit": 62000.0,
+        "incremental_profit": 14000.0,
+        "break_even_uplift": 0.02,
+        "expected_uplift": 0.3,
+        "mc_expected_incremental": 14023.407192214167,
+        "mc_p_loss": 0.0034,
+        "mc_p05": 5893.003661130073,
+        "mc_p95": 22165.18448906199
+      },
+      {
+        "case": "Retail promotion (65% gross margin)",
+        "baseline_profit": 30500.0,
+        "scenario_profit": 39250.0,
+        "incremental_profit": 8750.0,
+        "break_even_uplift": 0.03076923076923077,
+        "expected_uplift": 0.3,
+        "mc_expected_incremental": 8765.214674939209,
+        "mc_p_loss": 0.00435,
+        "mc_p05": 3480.4523797345473,
+        "mc_p95": 14057.369917890293
+      },
+      {
+        "case": "Casino event (as stated)",
+        "baseline_profit": 85000.0,
+        "scenario_profit": 102000.0,
+        "incremental_profit": 17000.0,
+        "break_even_uplift": 0.03,
+        "expected_uplift": 0.2,
+        "mc_expected_incremental": 17037.451507542668,
+        "mc_p_loss": 0.01645,
+        "mc_p05": 4028.8058578081195,
+        "mc_p95": 30064.295182499187
+      },
+      {
+        "case": "Casino event (net of 40% gaming tax)",
+        "baseline_profit": 45000.0,
+        "scenario_profit": 54000.0,
+        "incremental_profit": 9000.0,
+        "break_even_uplift": 0.05,
+        "expected_uplift": 0.2,
+        "mc_expected_incremental": 9022.470904525602,
+        "mc_p_loss": 0.0292,
+        "mc_p05": 1217.2835146848718,
+        "mc_p95": 16838.57710949951
+      }
+    ]
+  }
+}
