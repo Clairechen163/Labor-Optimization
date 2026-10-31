@@ -82,29 +82,28 @@ def fig_coverage(scn, fixed, flex, path: Path, role: str = "dealer"):
 
 
 def fig_policy(tables: dict[str, pd.DataFrame], path: Path):
-    labels = {"Fixed shifts + cross-training": "Fixed shifts + cross-training",
-              "Flexible starts, no cross-training": "Flexible starts",
-              "Flexible starts + cross-training (optimized)": "Flexible starts + cross-training"}
-    colors = [ORANGE, AQUA, BLUE]
+    series = [("Fixed shifts, no cross-training", "Fixed shifts (baseline)", MUTED),
+              ("Fixed shifts + cross-training", "Fixed shifts + cross-training", ORANGE),
+              ("Flexible starts, no cross-training", "Flexible starts", AQUA),
+              ("Flexible starts + cross-training (optimized)", "Flexible starts + cross-training", BLUE)]
     names = list(tables)
-    fig, ax = plt.subplots(figsize=(9, 3.6))
-    h = 0.24
-    for i, (pol, short) in enumerate(labels.items()):
+    fig, ax = plt.subplots(figsize=(9, 4.2))
+    h = 0.19
+    for i, (pol, label, color) in enumerate(series):
         vals = []
         for n in names:
             t = tables[n].set_index("policy")
-            vals.append(100 * t.loc[pol, "total_cost"] / t.loc["Fixed shifts, no cross-training", "total_cost"])
-        y = np.arange(len(names)) + (i - 1) * (h + 0.02)
-        ax.barh(y, vals, height=h, color=colors[i], label=short)
+            vals.append(100 * t.loc[pol, "total_cost"] / t.loc[series[0][0], "total_cost"])
+        y = np.arange(len(names)) + (i - 1.5) * (h + 0.02)
+        ax.barh(y, vals, height=h, color=color, label=label)
         for yy, v in zip(y, vals):
-            ax.text(v + 0.6, yy, f"{v:.1f}", va="center", fontsize=8.5, color=INK2)
-    ax.axvline(100, color=INK2, lw=1)
+            ax.text(v + 1.0, yy, f"{v:.1f}", va="center", fontsize=8.5, color=INK2)
     ax.set_yticks(np.arange(len(names)), labels=names)
     ax.invert_yaxis()
-    ax.set_xlim(0, 112)
-    ax.set_xlabel("Total weekly cost incl. call-ins (fixed shifts, no cross-training = 100)")
-    ax.legend(loc="lower left", bbox_to_anchor=(0, 1.0), ncol=3, fontsize=9)
-    ax.grid(axis="y", visible=False)
+    ax.set_xlim(0, 110)
+    ax.set_xlabel("Total weekly cost incl. call-ins (baseline = 100)")
+    ax.legend(loc="lower left", bbox_to_anchor=(0, 1.0), ncol=4, fontsize=8.5, handlelength=1.2, columnspacing=1.2)
+    ax.grid(False)
     fig.tight_layout()
     fig.savefig(path, dpi=150)
     plt.close(fig)
@@ -168,8 +167,8 @@ def fig_spc(det: dict, threshold: float, wear_start, path: Path):
         sig = det["spc_first_signal"]
         y = float(ch.loc[ch.date == sig, "p"].iat[0] * 100)
         ax.scatter([sig], [y], s=70, facecolor=SURFACE, edgecolor=INK, zorder=5, lw=1.5)
-        ax.annotate("first control-chart signal", (sig, y), xytext=(10, 14), textcoords="offset points",
-                    fontsize=8.5, color=INK)
+        ax.annotate(f"first control-chart signal ({sig:%b %d})", (sig, y), xytext=(28, -42), textcoords="offset points",
+                    fontsize=8.5, color=INK, arrowprops={"arrowstyle": "-", "color": INK2, "lw": 1})
     ax.set_ylabel("defect rate (%)")
     ax.set_ylim(top=max(threshold * 100, float(ch.p.max() * 100)) * 1.08)
     caught = "never flags" if det["threshold_first_flag"] is None else "flags late"
@@ -368,8 +367,8 @@ def build_report(out_dir: str | Path = "reports", time_limit: int = 60) -> dict:
            "P(loss) comes from Monte Carlo over the uncertain uplift (normal, SD 10 points for retail and 8 for the "
            "casino). These examples keep the original case study's currency units.", ""]
 
-    (out / "RESULTS.md").write_text("\n".join(md))
-    (out / "results.json").write_text(json.dumps(results, indent=2, default=_json_default))
+    (out / "RESULTS.md").write_text("\n".join(md), encoding="utf-8")
+    (out / "results.json").write_text(json.dumps(results, indent=2, default=_json_default), encoding="utf-8")
     return results
 
 

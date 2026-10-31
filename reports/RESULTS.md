@@ -60,7 +60,7 @@ Total cost = scheduled pay (incl. night premiums and overtime) + call-in cost fo
 | NB regression (mean) | 0.235 | 4.20 | 75.5 | 69.7 |
 | NB regression (P67 for staffing) | 0.256 | 4.56 | 49.2 | 106.2 |
 
-Rostering the forecast week: total cost 369,740, coverage 97.7%, 5 supervisor shifts redeployed to dealing, solved in 0.6s (2,291 variables).
+Rostering the forecast week: total cost 369,740, coverage 97.7%, 5 supervisor shifts redeployed to dealing, solved in 0.5s (2,291 variables).
 
 ![Forecast](figures/forecast_week.png)
 

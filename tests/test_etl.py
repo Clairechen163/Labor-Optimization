@@ -1,4 +1,5 @@
 import sqlite3
+from contextlib import closing
 
 from labor_opt.etl import run_etl
 from labor_opt.roster import solve_roster
@@ -14,7 +15,7 @@ def test_etl_loads_and_reports(retail, tmp_path):
     assert rep.rows_loaded["attendance"] == n_shifts            # one attendance row per scheduled shift
     assert rep.quality["invalid_intervals"] == 0
 
-    with sqlite3.connect(db) as con:
+    with closing(sqlite3.connect(db)) as con:
         assert con.execute("PRAGMA foreign_key_check").fetchall() == []
         absent = con.execute("SELECT COUNT(*) FROM attendance WHERE status='absent'").fetchone()[0]
         assert absent == rep.quality["absences"]

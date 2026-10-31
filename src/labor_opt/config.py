@@ -168,7 +168,7 @@ def build_workforce(cfg: dict) -> list[Employee]:
 
 
 def load_scenario(path: str | Path) -> Scenario:
-    cfg = yaml.safe_load(Path(path).read_text())
+    cfg = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
     roles = {r: Role(r, float(v["wage"]), v.get("max_on_duty")) for r, v in cfg["roles"].items()}
     templates = [ShiftTemplate(t["name"], int(t["start"]), int(t["length"]), float(t.get("premium", 1.0)))
                  for t in cfg["shift_templates"]]

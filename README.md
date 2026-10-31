@@ -20,7 +20,7 @@ a garment factory (round-the-clock production lines) and a luxury retail boutiqu
 |---|---|---|
 | How much does an optimized roster save? | Mixed-integer program (PuLP + CBC), ~1,700 binary variables | **5.1%** (casino), **5.5%** (textile), **25.9%** (retail) lower weekly cost than fixed shifts |
 | How close to the best possible is it? | Covering-LP lower bound | Casino roster within **0.6%** of the bound; textile matches it |
-| What does one more dealer cost on Friday night? | Re-solving with the block requirement raised | 400 to 1,760 HKD depending on the block |
+| What does one more required dealer cost? | Re-solving with each 6-hour block raised by one | From 400 HKD (Thursday morning, absorbed by an existing shift) to 1,760 HKD (any evening, needs a new shift) |
 | Can we forecast pit traffic? | Negative-binomial regression, rolling-origin backtest | WAPE **0.235** vs 0.340 for same-hour-last-week |
 | How much buffer should we staff? | Newsvendor quantile (call-ins cost 3x) | Staff to P67: under-staffed dealer-hours fall **75 → 49** per week |
 | Did +15% dealers speed up the game? | Randomized experiment, clustered OLS | **+5.45 hands/h** (95% CI 4.32–6.58); planted truth +6.0 |
@@ -33,16 +33,23 @@ Full tables and figures: [`reports/RESULTS.md`](reports/RESULTS.md). Model state
 ## How the pieces connect
 
 ```mermaid
-flowchart LR
-    A[Hourly traffic history] --> B[NB regression forecast]
-    B -->|P67 quantile| C[Table-game / Erlang C<br/>staffing model]
-    C --> D[Hourly requirement]
-    D --> E[Roster MILP<br/>availability, hours, rest, cross-training]
-    E --> F[SQLite warehouse<br/>scheduled ETL]
-    F --> G[KPI flags and<br/>control charts]
-    G --> H[Experiment design<br/>and evaluation]
-    H --> I[Pro-forma decision]
-    I -.next change.-> E
+flowchart TB
+    subgraph plan ["1. Plan demand"]
+        direction LR
+        A["Hourly traffic<br/>history"] --> B["Negative-binomial<br/>forecast"]
+        B -->|"staff to P67"| C["Staffing model<br/>table games, Erlang C"]
+    end
+    subgraph run ["2. Schedule and run"]
+        direction LR
+        D["Hourly<br/>requirement"] --> E["Roster MILP<br/>hours, rest, availability,<br/>cross-training"]
+        E --> F["SQLite warehouse<br/>weekly ETL"]
+    end
+    subgraph learn ["3. Monitor and improve, then feed the next roster"]
+        direction LR
+        G["KPI flags and<br/>control charts"] --> H["Experiments"]
+        H --> I["Pro-forma<br/>decision"]
+    end
+    plan --> run --> learn
 ```
 
 ## Key figures

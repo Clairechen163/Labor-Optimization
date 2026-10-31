@@ -11,6 +11,7 @@ Run it with `labor-opt etl --scenario casino`; .github/workflows/scheduled-etl.y
 from __future__ import annotations
 
 import sqlite3
+from contextlib import closing
 from dataclasses import dataclass, field
 from importlib import resources
 from pathlib import Path
@@ -186,9 +187,9 @@ def load(tables: dict[str, pd.DataFrame], db_path: str | Path) -> dict:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     if db_path.exists():
         db_path.unlink()
-    schema = resources.files("labor_opt").joinpath("sql/schema.sql").read_text()
+    schema = resources.files("labor_opt").joinpath("sql/schema.sql").read_text(encoding="utf-8")
     counts = {}
-    with sqlite3.connect(db_path) as con:
+    with closing(sqlite3.connect(db_path)) as con, con:
         con.executescript(schema)
         for name in LOAD_ORDER:
             df = tables[name]
@@ -201,7 +202,7 @@ def load(tables: dict[str, pd.DataFrame], db_path: str | Path) -> dict:
 
 
 def query(db_path: str | Path, sql: str) -> pd.DataFrame:
-    with sqlite3.connect(db_path) as con:
+    with closing(sqlite3.connect(db_path)) as con:
         return pd.read_sql_query(sql, con)
 
 

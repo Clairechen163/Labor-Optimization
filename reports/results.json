@@ -12,7 +12,7 @@
         "coverage_rate": 0.9486215538847118,
         "schedule_efficiency": 0.94625,
         "solution": "optimal",
-        "runtime_s": 0.16564640199999303
+        "runtime_s": 0.1419502800000032
       },
       {
         "policy": "Fixed shifts + cross-training",
@@ -25,7 +25,7 @@
         "coverage_rate": 0.9486215538847118,
         "schedule_efficiency": 0.94625,
         "solution": "optimal",
-        "runtime_s": 0.1856409720001011
+        "runtime_s": 0.16192017499997746
       },
       {
         "policy": "Flexible starts, no cross-training",
@@ -38,7 +38,7 @@
         "coverage_rate": 0.9849624060150376,
         "schedule_efficiency": 0.9447115384615384,
         "solution": "optimal",
-        "runtime_s": 0.4611432629999399
+        "runtime_s": 0.4597713679999629
       },
       {
         "policy": "Flexible starts + cross-training (optimized)",
@@ -51,7 +51,7 @@
         "coverage_rate": 0.9786967418546366,
         "schedule_efficiency": 0.9618226600985221,
         "solution": "optimal",
-        "runtime_s": 0.4049839660001453
+        "runtime_s": 0.420807888000013
       }
     ],
     "lp_lower_bound": 353100.0,
@@ -268,7 +268,7 @@
         "coverage_rate": 0.9233333333333333,
         "schedule_efficiency": 0.9618055555555556,
         "solution": "optimal",
-        "runtime_s": 0.2050706799998352
+        "runtime_s": 0.13845512699998608
       },
       {
         "policy": "Fixed shifts + cross-training",
@@ -281,7 +281,7 @@
         "coverage_rate": 0.9233333333333333,
         "schedule_efficiency": 0.9618055555555556,
         "solution": "optimal",
-        "runtime_s": 0.17251982200014027
+        "runtime_s": 0.15809866399996508
       },
       {
         "policy": "Flexible starts, no cross-training",
@@ -294,7 +294,7 @@
         "coverage_rate": 0.9766666666666667,
         "schedule_efficiency": 0.9391025641025641,
         "solution": "optimal",
-        "runtime_s": 0.2926776350000182
+        "runtime_s": 0.39419178200000715
       },
       {
         "policy": "Flexible starts + cross-training (optimized)",
@@ -307,7 +307,7 @@
         "coverage_rate": 0.9766666666666667,
         "schedule_efficiency": 0.9391025641025641,
         "solution": "optimal",
-        "runtime_s": 0.29564014599986876
+        "runtime_s": 0.34332231199999796
       }
     ],
     "lp_lower_bound": 343872.0,
@@ -326,7 +326,7 @@
         "coverage_rate": 0.7967032967032968,
         "schedule_efficiency": 0.90625,
         "solution": "optimal",
-        "runtime_s": 0.02787795099993673
+        "runtime_s": 0.02949024700001246
       },
       {
         "policy": "Fixed shifts + cross-training",
@@ -339,7 +339,7 @@
         "coverage_rate": 0.8186813186813187,
         "schedule_efficiency": 0.93125,
         "solution": "optimal",
-        "runtime_s": 0.03569162300004791
+        "runtime_s": 0.037279857999976684
       },
       {
         "policy": "Flexible starts, no cross-training",
@@ -352,7 +352,7 @@
         "coverage_rate": 0.9835164835164835,
         "schedule_efficiency": 0.9226804123711341,
         "solution": "optimal",
-        "runtime_s": 0.038782046000051196
+        "runtime_s": 0.05248645099999294
       },
       {
         "policy": "Flexible starts + cross-training (optimized)",
@@ -365,7 +365,7 @@
         "coverage_rate": 0.9945054945054945,
         "schedule_efficiency": 0.9427083333333334,
         "solution": "optimal",
-        "runtime_s": 0.05495899399988957
+        "runtime_s": 0.0656663320000348
       }
     ],
     "lp_lower_bound": 186400.0,
@@ -419,7 +419,7 @@
       "cross_role_shifts": 5,
       "n_variables": 2291,
       "n_constraints": 2852,
-      "runtime_s": 0.5659237889999531
+      "runtime_s": 0.4715236829999867
     }
   },
   "demand": {

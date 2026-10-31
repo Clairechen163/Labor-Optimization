@@ -38,7 +38,7 @@ def retail_kpis(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def load_thresholds(path: str | Path) -> dict:
-    return yaml.safe_load(Path(path).read_text())
+    return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
 
 
 def flag(df: pd.DataFrame, rules: list[dict], entity: str, time: str) -> pd.DataFrame:
