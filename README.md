@@ -3,6 +3,7 @@
 [![CI](https://github.com/Clairechen163/labor-optimization/actions/workflows/ci.yml/badge.svg)](https://github.com/Clairechen163/labor-optimization/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+[![Live demo](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://labor-optimization.streamlit.app)
 
 **Author:** Claire Chen
 
