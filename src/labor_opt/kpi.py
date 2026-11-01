@@ -64,6 +64,24 @@ def flag(df: pd.DataFrame, rules: list[dict], entity: str, time: str) -> pd.Data
     return pd.DataFrame(flags)
 
 
+def flag_table(items: list[tuple[str, pd.DataFrame, list[dict], str, str]]) -> pd.DataFrame:
+    """Flags from several operations in one tidy table.
+
+    items: (operation, data, rules, entity column, time column). Time columns may be dates or
+    shift numbers; `first_flagged` is returned as text ("2026-03-21" or "shift 21") so the two
+    never get mixed into one datetime column.
+    """
+    rows = []
+    for operation, df, rules, entity, time in items:
+        f = flag(df, rules, entity, time)
+        for r in f.itertuples(index=False):
+            when = getattr(r, "first_flagged")
+            when = f"shift {when}" if isinstance(when, (int, np.integer)) else str(pd.Timestamp(when).date())
+            rows.append({"operation": operation, "unit": getattr(r, entity), "rule": r.rule,
+                         "first_flagged": when, "value": r.value, "target": r.target, "action": r.action})
+    return pd.DataFrame(rows, columns=["operation", "unit", "rule", "first_flagged", "value", "target", "action"])
+
+
 # ------------------------------------------------------------------ control charts
 def p_chart(defects: np.ndarray, units: np.ndarray, baseline_periods: int | None = None) -> pd.DataFrame:
     """p-chart with limits for varying sample size. Centre line from the first `baseline_periods` points."""

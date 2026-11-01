@@ -5,6 +5,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import altair as alt
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -26,6 +27,87 @@ st.title("Labor Optimization")
 st.caption("Forecasting, staffing models, roster optimization and evaluation. All data is synthetic.")
 
 SCENARIOS = {"Casino gaming pit": "casino", "Textile factory": "textile", "Luxury retail boutique": "retail"}
+
+# Same palette as the report figures: required = grey, scheduled / measured = blue, alerts = orange.
+# GREY also marks annotations: it stays readable on both the light and the dark Streamlit theme.
+BLUE, GREY, ORANGE = "#2a78d6", "#8a8984", "#eb6834"
+ROLE_NAMES = {"csr": "Customer service rep"}
+
+
+def role_label(role: str) -> str:
+    return ROLE_NAMES.get(role, role.replace("_", " ").capitalize())
+
+
+def coverage_chart(cov: pd.DataFrame, days: list[str], role: str) -> alt.LayerChart:
+    """Required vs scheduled staff for one role across the week, as steps, with gaps shaded."""
+    d = cov[["t", "day", "hour", "required", "scheduled"]].sort_values("t").reset_index(drop=True)
+    d["top"] = d[["required", "scheduled"]].max(axis=1)
+    d["t1"] = d.t + 1
+    d["mid"] = d.t + 0.5
+    d["day_name"] = [days[i] for i in d.day]
+    d["time"] = [f"{h:02d}:00-{(h + 1) % 24:02d}:00" for h in d.hour]
+    steps = pd.concat([d, d.iloc[[-1]].assign(t=168)], ignore_index=True)    # close the last hour
+    long = steps.melt(id_vars="t", value_vars=["scheduled", "required"], var_name="series", value_name="staff")
+    long["series"] = long.series.map({"scheduled": "Scheduled", "required": "Required"})
+
+    day_names = "[" + ",".join(f"'{x}'" for x in days) + "]"
+    x = alt.X("t:Q", scale=alt.Scale(domain=[0, 168], nice=False), title=None,
+              axis=alt.Axis(values=list(range(0, 168, 24)), labelExpr=f"{day_names}[floor(datum.value / 24)]",
+                            labelAlign="left", labelPadding=4))
+    y_max = int(d.top.max()) + 1
+    y = alt.Y("staff:Q", title=f"{role_label(role).lower()}s on duty",
+              scale=alt.Scale(domain=[0, y_max]), axis=alt.Axis(tickMinStep=1, format="d"))
+    color = alt.Color("series:N", title=None, legend=alt.Legend(orient="top"),
+                      scale=alt.Scale(domain=["Scheduled", "Required"], range=[BLUE, GREY]))
+
+    gap = alt.Chart(steps).mark_area(interpolate="step-after", color=ORANGE, opacity=0.35).encode(
+        x=x, y=alt.Y("scheduled:Q", scale=alt.Scale(domain=[0, y_max])), y2="top:Q")
+    sched = alt.Chart(long).transform_filter("datum.series == 'Scheduled'").mark_line(
+        interpolate="step-after", strokeWidth=2.5).encode(x=x, y=y, color=color)
+    req = alt.Chart(long).transform_filter("datum.series == 'Required'").mark_line(
+        interpolate="step-after", strokeWidth=1.6, strokeDash=[5, 3]).encode(x=x, y=y, color=color)
+    hover = alt.selection_point(on="pointerover", fields=["t"], empty=False, clear="pointerout")
+    hit = alt.Chart(d).mark_rect(color="white", opacity=0.001).encode(
+        x=x, x2="t1:Q",
+        tooltip=[alt.Tooltip("day_name:N", title="Day"), alt.Tooltip("time:N", title="Hour"),
+                 alt.Tooltip("required:Q", title="Required"), alt.Tooltip("scheduled:Q", title="Scheduled")],
+    ).add_params(hover)
+    rule = alt.Chart(d).mark_rule(color=GREY, strokeWidth=1).encode(x="mid:Q").transform_filter(hover)
+    return alt.layer(gap, sched, req, rule, hit).properties(height=300)
+
+
+def control_chart(det: dict, threshold: float) -> alt.LayerChart:
+    """Daily defect rate with its 3-sigma control limit, the fixed threshold and the first signal."""
+    ch = det["chart"].copy()
+    ch["rate"] = ch.p * 100
+    ch["limit"] = ch.ucl * 100
+    ch["fixed"] = threshold * 100
+    names = {"rate": "Defect rate", "limit": "Control limit (3 sigma)", "fixed": f"Fixed threshold ({threshold:.0%})"}
+    long = ch.melt(id_vars="date", value_vars=list(names), var_name="series", value_name="pct")
+    long["series"] = long.series.map(names)
+    domain = list(names.values())
+    x = alt.X("date:T", title=None, axis=alt.Axis(format="%b %d", labelAngle=0, tickCount=8))
+    y_max = max(threshold * 100, float(ch.rate.max())) * 1.1
+    yscale = alt.Scale(domain=[0, y_max])
+    lines = alt.Chart(long).mark_line().encode(
+        x=x, y=alt.Y("pct:Q", title="defect rate (%)", scale=yscale),
+        color=alt.Color("series:N", title=None, legend=alt.Legend(orient="top"),
+                        scale=alt.Scale(domain=domain, range=[BLUE, GREY, ORANGE])),
+        strokeDash=alt.StrokeDash("series:N", title=None, legend=alt.Legend(orient="top"),
+                                  scale=alt.Scale(domain=domain, range=[[1, 0], [4, 3], [1, 0]])),
+        strokeWidth=alt.StrokeWidth("series:N", legend=None, scale=alt.Scale(domain=domain, range=[2, 1.4, 2])))
+    pts = alt.Chart(ch).mark_circle(size=28, color=BLUE, opacity=1).encode(
+        x=x, y=alt.Y("rate:Q", scale=yscale),
+        tooltip=[alt.Tooltip("date:T", title="Date", format="%b %d"),
+                 alt.Tooltip("rate:Q", format=".2f", title="Defect rate (%)"),
+                 alt.Tooltip("limit:Q", format=".2f", title="Control limit (%)")])
+    layers = [lines, pts]
+    if det["spc_first_signal"] is not None:
+        sig = ch[ch.date == det["spc_first_signal"]]
+        ring = alt.Chart(sig).mark_point(size=240, shape="circle", filled=False, color=GREY, strokeWidth=2.5)
+        label = alt.Chart(sig).mark_text(text="first signal", color=GREY, align="right", dx=-12, dy=-12, fontSize=12)
+        layers += [ring.encode(x=x, y=alt.Y("rate:Q", scale=yscale)), label.encode(x=x, y=alt.Y("rate:Q", scale=yscale))]
+    return alt.layer(*layers).properties(height=280)
 
 tab_roster, tab_demand, tab_kpi, tab_casino, tab_pf = st.tabs(
     ["Roster optimizer", "Demand & forecast", "KPI monitor", "Casino math", "Pro-forma"])
@@ -59,10 +141,12 @@ with tab_roster:
         m[2].metric("Coverage", f"{s['coverage_rate']:.1%}")
         m[3].metric("Schedule efficiency", f"{s['schedule_efficiency']:.1%}")
         m[4].metric("Solve time", f"{s['runtime_s']:.1f}s")
-        role = st.radio("Role", list(scn.roles), horizontal=True)
-        cov = res.coverage[res.coverage.role == role].set_index("t")[["required", "scheduled"]]
-        cov.index.name = "hour of week (0 = Monday midnight)"
-        st.line_chart(cov, height=260)
+        role = st.radio("Role", list(scn.roles), horizontal=True, format_func=role_label)
+        cov = res.coverage[res.coverage.role == role]
+        st.altair_chart(coverage_chart(cov, scn.days, role))
+        name = role_label(role).lower()
+        st.caption(f"Orange shading marks hours with too few staff: {cov.short.sum():.0f} uncovered and "
+                   f"{cov.surplus.sum():.0f} surplus {name}-hours this week. Hover over the chart for hourly detail.")
         with st.expander("Shift assignments"):
             st.dataframe(res.assignments[["day_name", "template", "start", "length", "employee", "role", "primary_role", "cost"]],
                          width="stretch", hide_index=True)
@@ -121,18 +205,25 @@ with tab_kpi:
     rt = kpi.retail_kpis(syn.retail_daily_kpis())
     cs = syn.casino_shift_kpis()
     st.subheader("Flagged operations")
-    st.dataframe(pd.concat([kpi.flag(tx, th["textile"], "line", "date").assign(operation="Textile"),
-                            kpi.flag(rt, th["retail"], "store", "date").assign(operation="Retail"),
-                            kpi.flag(cs, th["casino"], "dealer", "shift").assign(operation="Casino")]),
-                 width="stretch", hide_index=True)
+    flags = kpi.flag_table([("Textile", tx, th["textile"], "line", "date"),
+                            ("Retail", rt, th["retail"], "store", "date"),
+                            ("Casino", cs, th["casino"], "dealer", "shift")])
+    flags.columns = ["Operation", "Unit", "Rule", "First flagged", "Value", "Target", "Action"]
+    st.dataframe(flags.style.format({"Value": "{:.3g}", "Target": "{:.3g}"}), width="stretch", hide_index=True)
     st.subheader("Defect-rate control chart")
-    line = st.selectbox("Production line", sorted(tx.line.unique()), index=3)
+    line = st.selectbox("Production line", sorted(tx.line.unique()), index=3,
+                        help="Line L4 develops tool wear from March 2; the other lines are stable.")
     det = kpi.compare_detection(tx, "line", line, "date", "defects", "units", 0.05)
-    ch = det["chart"].set_index("date")[["p", "ucl", "center"]].rename(
-        columns={"p": "defect rate", "ucl": "control limit", "center": "centre line"})
-    st.line_chart(ch, height=260)
-    st.write(f"First control-chart signal: **{det['spc_first_signal'] or 'none'}** · "
-             f"first fixed-threshold (5%) flag: **{det['threshold_first_flag'] or 'none'}**")
+    st.altair_chart(control_chart(det, 0.05))
+
+    def _day(v):
+        return pd.Timestamp(v).strftime("%b %d")
+    sig, thr = det["spc_first_signal"], det["threshold_first_flag"]
+    spc_text = f"The control chart first signals on {_day(sig)} (ringed)." if sig is not None else \
+        "The control chart raises no signal on this line."
+    thr_text = f"The fixed 5% threshold first fires on {_day(thr)}." if thr is not None else \
+        "The fixed 5% threshold never fires."
+    st.caption(f"{spc_text} {thr_text}")
 
 with tab_casino:
     st.subheader("House edge and payback")

@@ -317,13 +317,11 @@ def build_report(out_dir: str | Path = "reports", time_limit: int = 60) -> dict:
     det = kpi.compare_detection(tx, "line", "L4", "date", "defects", "units", threshold=0.05)
     wear = pd.Timestamp("2026-01-01") + pd.Timedelta(days=60)
     fig_spc(det, 0.05, wear, figs / "spc_line_L4.png")
-    flags = pd.concat([
-        kpi.flag(tx, th["textile"], "line", "date").assign(operation="Textile"),
-        kpi.flag(kpi.retail_kpis(syn.retail_daily_kpis()), th["retail"], "store", "date").assign(operation="Retail"),
-        kpi.flag(syn.casino_shift_kpis(), th["casino"], "dealer", "shift").assign(operation="Casino"),
-    ], ignore_index=True)
-    flags["first_flagged"] = [f"shift {v}" if isinstance(v, (int, np.integer)) else str(v)[:10] for v in flags.first_flagged]
-    flags["unit"] = flags[["line", "store", "dealer"]].bfill(axis=1).iloc[:, 0]
+    flags = kpi.flag_table([
+        ("Textile", tx, th["textile"], "line", "date"),
+        ("Retail", kpi.retail_kpis(syn.retail_daily_kpis()), th["retail"], "store", "date"),
+        ("Casino", syn.casino_shift_kpis(), th["casino"], "dealer", "shift"),
+    ])
     results["kpi"] = {"spc_first_signal": str(det["spc_first_signal"]),
                       "threshold_first_flag": str(det["threshold_first_flag"]), "flags": len(flags)}
     sig = det["spc_first_signal"]
